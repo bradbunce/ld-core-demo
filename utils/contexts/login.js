@@ -17,11 +17,49 @@ export const LoginProvider = ({ children }) => {
   const [launchClubStatus, setLaunchClubStatus] = useState("economy");
 
   const loginUser = async (user, email) => {
+
     const context = await client?.getContext();
+
+    const hashCode = (str) => {
+      var hash = 0,
+        i = 0,
+        len = str.length;
+      while (i < len) {
+        hash = ((hash << 5) - hash + str.charCodeAt(i++)) << 0;
+      }
+      const key = pad(hash + 2147483647 + 1, 12);
+      return "key_" + key;
+    }
+    
+    const pad = (num, size) => {
+      num = num.toString();
+      while (num.length < size) num = "0" + num;
+      return num;
+    }
+
     console.log("loginUser",context)
     context.user.name = user;
     context.user.email = email;
-    context.user.key = email;
+    context.user.key = hashCode(email);
+    
+    switch (user) {
+      case 'Cody':
+        context.user.segment = "Family";
+        context.user.country = "Norway";
+        break;
+      case 'Jenn':
+        context.user.segment = "Young Adult";
+        context.user.country = "United Kingdom";
+        break;
+      case 'Alysha':
+        context.user.segment = "Affluent Adult";
+        context.user.country = "United States";
+        break;
+      default:
+        context.user.sSegment = "Student";
+        context.user.country = "United States";
+    }
+
     context.audience.key = uuidv4().slice(0, 10)
     setIsLoggedIn(true);
     setUser(user);
