@@ -56,11 +56,14 @@ export const LoginProvider = ({ children }) => {
         context.user.country = "United States";
         break;
       default:
-        context.user.sSegment = "Student";
+        context.user.segment = "Student";
         context.user.country = "United States";
     }
 
-    context.audience.key = uuidv4().slice(0, 10)
+    context.audience.key = uuidv4().slice(0, 10);
+    
+    context._meta.privateAttributes = ['email'];
+    
     setIsLoggedIn(true);
     setUser(user);
     setEmail(email);
