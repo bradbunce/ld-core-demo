@@ -39,7 +39,7 @@ export const LoginProvider = ({ children }) => {
 
     console.log("loginUser",context)
     context.user.name = user;
-    //context.user.email = email;
+    context.user.email = email;
     context.user.key = hashCode(email);
     
     switch (user) {
@@ -61,8 +61,6 @@ export const LoginProvider = ({ children }) => {
     }
 
     context.audience.key = uuidv4().slice(0, 10);
-    
-    context._meta.privateAttributes = ['email'];
     
     setIsLoggedIn(true);
     setUser(user);
